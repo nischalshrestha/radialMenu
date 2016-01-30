@@ -8,7 +8,9 @@ I made a prototype on Framer that demonstrates the power of radial menus when it
 
 <img src="https://media.giphy.com/media/6j8HIS6HJZIyc/giphy.gif"/>
 
-Live Demo on Browser: http://share.framerjs.com/y8zo5agm7b7k/
+# Demo: 
+
+http://share.framerjs.com/y8zo5agm7b7k/
 
 # Sources:
 
