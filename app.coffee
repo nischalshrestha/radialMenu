@@ -1,5 +1,6 @@
-# A Floating Action Button interaction
-# Hold and drag to a menu item; upon release, perform action
+# A Floating Action Button interaction. User can either:
+# 1) Press on share, hold and drag to a menu item
+# 2) Simply Tap share
 
 layerBackground = new BackgroundLayer
 	backgroundColor: "white"
@@ -164,6 +165,9 @@ layerInsta.states.add
 layerInsta.states.animationOptions =
 	curve: "spring(200, 25, 20)"
 
+# This is so that both Click and DragMove will trigger the Layers' next state
+prevState = 'DragEnd'
+
 # Convenience function for stepping through layer states
 changeState = ->
 	layerForeground.states.next()
@@ -175,6 +179,12 @@ changeState = ->
 	
 layerBox.draggable.enabled = true
 
+# Respond even on a click
+layerBox.on Events.Click, ->
+	if prevState == "DragEnd"
+		changeState()
+		
+# Respond once a Drag has begun as well
 layerBox.on Events.DragStart, ->
 	changeState()
 
@@ -216,6 +226,7 @@ animTwitterRev = new Animation
 
 # Scale up item if finger is over it; scale others down if they were scaled up
 layerBox.on Events.DragMove, (event) ->
+	prevState = "DragMove"
 # 	FB
 	if this.y > (layerInsta.y + layerInsta.height) and this.x < layerFacebook.x + layerFacebook.width
 		animFacebook.start() and onFacebook = 1 if onFacebook == 0 # Scale up layerFacebook
@@ -234,6 +245,7 @@ layerBox.on Events.DragMove, (event) ->
 		
 # Snap back layerBox to its origin
 layerBox.on Events.DragEnd, ->
+	prevState = "DragEnd"
 	changeState()
 	layerBox.animate
 		properties: {
